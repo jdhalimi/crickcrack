@@ -1,0 +1,97 @@
+<html>
+
+<head>
+	<title>Crick-Crack</title>
+	<link rel="stylesheet" href="operations.css">
+	<script type="text/javascript" src="operations.js"></script>
+</head>
+
+<body>
+	<div class="page">
+		<h1>Crick-Crack</h1>
+		<div id="init_page">
+			<div>
+				<img src="assets/perso1.png" alt="perso">
+			</div>
+			<div>
+				<div id="durations" class="durations">
+					<h3>Choisis combien de minutes</h3>
+				</div>
+				<div id="tables" class="tables">
+					<h3>Choisis tes tables</h3>
+				</div>
+				<div id="operations" class="operations">
+					<h3>Choisis tes operations</h3>
+				</div>
+				<div>
+					<button onclick="startGame()">Commencer</button>
+				</div>
+			</div>
+		</div>
+
+		<div id="countdown_page">
+			<div>
+				<img src="assets/perso2.png" alt="perso">
+			</div>
+			<div>
+				<span id="countdown"></span>
+			</div>
+		</div>
+
+		<div id="game_page">
+			<div>
+				<img src="assets/perso2.png" alt="perso">
+			</div>
+			<div class="operation">
+				<span id="operation"></span>
+			</div>
+
+			<div class="status">
+				<span id="status"></span>
+			</div>
+
+			<div id="clavier">
+				<div>
+					<button onclick="inputDigit(1)">1</button>
+					<button onclick="inputDigit(2)">2</button>
+					<button onclick="inputDigit(3)">3</button>
+				</div>
+
+				<div>
+					<button onclick="inputDigit(4)">4</button>
+					<button onclick="inputDigit(5)">5</button>
+					<button onclick="inputDigit(6)">6</button>
+				</div>
+				<div>
+					<button onclick="inputDigit(7)">7</button>
+					<button onclick="inputDigit(8)">8</button>
+					<button onclick="inputDigit(9)">9</button>
+				</div>
+				<div>
+					<button onclick="clearInput()">-</button>
+					<button onclick="inputDigit(0)">0</button>
+					<button id="pass-btn" onclick="passTurn()">+</button>
+				</div>
+			</div>
+			<div>
+				<button onclick="endGame()">Terminer</button>
+			</div>
+		</div>
+
+		<div id="end_page">
+			<div>
+				<img src="assets/bravo.jpg" alt="bravo">
+			</div>
+
+			<div class="final_score">
+				Ton score est <span id="final_score"></span>
+			</div>
+
+			<div>
+				<button onclick="initGame()">Recommencer</button>
+			</div>
+		</div>
+    </div>
+</body>
+
+</html>
