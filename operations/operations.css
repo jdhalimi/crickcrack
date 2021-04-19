@@ -48,7 +48,11 @@
 }
 
 .keyboard {
-    margin: 1rem;
+    bottom: 3rem;
+    text-align: center;
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%);
 }
 
 .keyboard button {
