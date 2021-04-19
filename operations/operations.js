@@ -36,6 +36,7 @@ const ALL_OPERATIONS = [OP_PLUS, OP_MINUS, OP_DIVIDE, OP_TIMES];
 
 var splashCountDown = SPLASH_CD;
 let gameCountDown = GAME_CD;
+let inGame = true;
 let statusCountDown = 0;
 let currentInput = "";
 let timeElapsed = 0;
@@ -116,11 +117,13 @@ function formatDuration(s) {
 function showKeyboard() {
     let keyboard = document.getElementById("keyboard")
     keyboard.hidden = false;
+    inGame = true;
 }
 
 function hideKeyboard() {
     let keyboard = document.getElementById("keyboard")
     keyboard.hidden = true;
+    inGame = false;
 }
 
 function clearInput() {
@@ -363,7 +366,9 @@ function runGame() {
         document.getElementById("timer").innerHTML = formatDuration(gameCountDown);
     }
     if (gameCountDown) {
-        gameCountDown--;
+        if (inGame) {
+            gameCountDown--;
+        }
     }
     else {
         endGame();
