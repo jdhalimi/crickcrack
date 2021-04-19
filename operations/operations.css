@@ -1,58 +1,44 @@
 .page {
     text-align: center;
-    padding: 20px;
+    padding: 2em;
     font-family: 'Courier New', Courier, monospace
 }
 
 .page img {
-    width: 300px;
+    width: 10em;
 }
 
-#game_page img {
-    width: 100px;
-}
 
 #countdown {
-    font-size: 50px;
+    font-size: 5em;
 }
 
 .final_score {
-    font-size: 80px;
+    font-size: 8em;
 }
 
 .select-menu button {
     border: none;
-    margin: 10px;
-    width: 50px;
-    height: 60px;
+    margin: 1em;
+    width: 5em;
+    height: 6em;
 }
 
 .operation button {
     margin: 0;
     border: none;
-    width: 50px;
-    height: 60px; 
-}
-
-.table-digit {
-    border: 1;
-    margin: 10px;
-    width: 170px;
-    height: 50px;
-    background-color: #c0c5cf;
-    color: brown;
-    font-size: 20px;
-    font-weight: bold;
+    width: 5em;
+    height: 6em; 
 }
 
 .keyboard {
-    margin: 10px;
+    margin: 1em;
 }
 
 .keyboard button {
     border: none;
-    width: 50px;
-    height: 60px; 
+    width: 5em;
+    height: 6em; 
 }
 
 .digit-0 {
@@ -140,21 +126,14 @@
 }
 
 .operation {
-    font-size: 5rem;
+    font-size: 5em;
     color: black;
     text-align: center;
 }
 
 .status {
-    font-size: 3rem;
+    font-size: 1em;
     text-align: center;
-}
-
-.result input {
-    font-size: 100px;
-    text-align: center;
-    color: blue;
-    width: 250px;
 }
 
 .success {
