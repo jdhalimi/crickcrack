@@ -12,14 +12,15 @@ const CHANCES_NB = 3;
 const PAGES = ["init_page", "countdown_page", "game_page", "end_page"];
 
 const OK_MESSAGES = [
-    "c'est exact", "bravo", 
-    "c'est bien çà", "çà roule", 
+    "c'est exact", 
+    "bravo", 
+    "c'est bon",  
     "c'est bien"];
 
 const KO_MESSAGES = [
-    "non, c'est pas çà", "c'est faux", 
-    "encore raté", "recommence", 
-    "aller courage"];
+    "non, c'est raté", 
+    "c'est faux", 
+    "encore raté"];
 
 const OP_PLUS = "plus";
 const OP_TIMES = "times";
