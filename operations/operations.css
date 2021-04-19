@@ -55,6 +55,12 @@
     transform: translate(-50%);
 }
 
+#status {
+    margin: 4rem;
+    font-size: 400%;
+    text-align: center;
+}
+
 .keyboard button {
     border: none;
     width: 5rem;

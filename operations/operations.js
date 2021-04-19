@@ -104,9 +104,21 @@ function formatDuration(s) {
     return pad(minute) + ":" + pad(seconds)
 }
 
+function showKeyboard() {
+    let keyboard = document.getElementById("keyboard")
+    keyboard.hidden = false;
+}
+
+function hideKeyboard() {
+    let keyboard = document.getElementById("keyboard")
+    keyboard.hidden = true;
+}
+
 function clearInput() {
     currentInput = "";
-    displayOperation("");
+    let label = document.getElementById("label");
+    label.innerHTML = "trouve le resultat de"
+    return displayOperation("", byletter = true);
 }
 
 function removeElement(a, n) {
@@ -116,62 +128,74 @@ function removeElement(a, n) {
 
 function inputDigit(digit) {
     currentInput = currentInput + digit;
-    displayOperation(currentInput);
     let current = parseInt(currentInput);
-    if (currentAnswer.toString().length == current.toString().length) {
-        checkInput();
-    }
+    let verify = (currentAnswer.toString().length == current.toString().length);
+    displayOperation(currentInput).then(verify ? checkInput : null)
 }
 
-function printLetterByLetter(destination, message, speed) {
+
+function printMessage(destination, message) {
     let dest = document.getElementById(destination);
     let html = "";
-    var i = 0;
-    if (speed) {
+    for (var i = 0; i < message.length; i++) {
+        html += message[i];
+    }
+    dest.innerHTML = html;
+}
+
+function printMessageByLetter(destination, message, speed) {
+    return new Promise(resolve => {
+        let dest = document.getElementById(destination);
+        let html = "";
+        var i = 0;
         var interval = setInterval(function () {
             if (i >= message.length) {
                 clearInterval(interval);
+                resolve();
             } else {
                 html += message[i];
                 dest.innerHTML = html;
                 i++;
             }
         }, speed);
-    }
-    else {
-        for (var i = 0; i < message.length; i++) {
-            html += message[i];
-        }
-        dest.innerHTML = html;
-    }
+    });
 }
 
-function displayOperation(input) {
-    let x = currentQuestion[0];
-    let o = currentQuestion[1];
-    let y = currentQuestion[2];
-    let letters = [];
-    console.log(currentQuestion, x, o, y, input)
-    let html = "";
-    id = "operation"
-    for (var i = 0; i < x.length; i++) {
-        letters.push('<button class="digit-' + x[i] + '"> </button>');
-    }
-    letters.push('<button class="digit-' + o + '"> </button>');
-    for (var i = 0; i < y.length; i++) {
-        letters.push('<button class="digit-' + y[i] + '"> </button>');
-    }
-    letters.push('<button class="digit-equals"> </button>');
+function displayOperation(input, byletter = false) {
+    return new Promise(resolve => {
+        let x = currentQuestion[0];
+        let o = currentQuestion[1];
+        let y = currentQuestion[2];
 
-    let delay = 200;
-    if (input.length) {
-        delay = 0;
-        for (var i = 0; i < input.length; i++) {
-            letters.push('<button class="digit-' + input[i] + '"> </button>');
+        let letters = [];
+        let html = "";
+        id = "operation"
+        for (var i = 0; i < x.length; i++) {
+            letters.push('<button class="digit-' + x[i] + '"> </button>');
         }
-    }
+        letters.push('<button class="digit-' + o + '"> </button>');
+        for (var i = 0; i < y.length; i++) {
+            letters.push('<button class="digit-' + y[i] + '"> </button>');
+        }
+        letters.push('<button class="digit-equals"> </button>');
 
-    printLetterByLetter("operation", letters, delay);
+        let delay = 200;
+        if (input.length) {
+            for (var i = 0; i < input.length; i++) {
+                letters.push('<button class="digit-' + input[i] + '"> </button>');
+            }
+        }
+
+        if (byletter) {
+            printMessageByLetter("operation", letters, delay)
+                .then(resolve)
+        }
+        else {
+            printMessage("operation", letters)
+            resolve();
+        }
+
+    });
 }
 
 
@@ -179,44 +203,56 @@ function updateScore() {
     document.getElementById("score").innerHTML = currentScore + "/" + n;
 }
 
-function splashStatus(msg, classname) {
-    let status = document.getElementById("status");
-    let keyboard = document.getElementById("keyboard");
-    status.innerHTML = msg;
+function splashStatus(msg, classname = "") {
+    return new Promise(resolve => {
+        let status = document.getElementById("status");
+        status.innerHTML = msg;
+        status.hidden = false;
+        status.className = classname;
+        sleep(500).then(function () {
+            status.hidden = true;
+        })
+        resolve();
+    });
+}
 
-    keyboard.hidden = true;
-    sleep(500).then(function () {
-        status.innerHTML = formatDuration(gameCountDown);
-        keyboard.hidden = false;
-    })
+function inputOK() {
+    currentScore = currentScore + 1;
+    msg = choose(OK_MESSAGES);
+    answers.push([currentQuestion, currentAnswer, currentInput])
+
+    hideKeyboard();
+    splashStatus(msg, "success")
+        .then(function () { return sleep(1500) })
+        .then(nextTurn)
+        .then(showKeyboard)
+}
+
+function inputKO() {
+    msg = choose(KO_MESSAGES);
+    answers.push([currentQuestion, currentAnswer, currentInput])
+
+    hideKeyboard();
+    splashStatus(msg, "error")
+        .then(function () { return sleep(1500) })
+        .then(function () {
+            let label = document.getElementById("label");
+            label.innerHTML = "le bon resultat est"
+            return displayOperation(String(currentAnswer), byletter = true)
+        })
+        .then(function () { return sleep(2000); })
+        .then(nextTurn)
+        .then(showKeyboard)
 }
 
 function checkInput() {
     let inputValue = parseInt(currentInput);
-    let operation = document.getElementById("operation");
-    let status = document.getElementById("status");
     let ok = (currentAnswer == inputValue);
-    let msg = "";
-    displayOperation(currentInput)
-    if (ok) {
-        currentScore = currentScore + 1;
-        operation.className = "success";
-        msg = choose(OK_MESSAGES);
-        answers.push([currentQuestion, currentAnswer, currentInput])
-    } else {
-        operation.className = "error";
-        msg = choose(KO_MESSAGES);
-        answers.push([currentQuestion, currentAnswer, currentInput])
-    }
-    splashStatus(msg);
-    sleep(500).then(function () {
-        operation.className = "";
-        nextTurn();
-    });
+    displayOperation(currentInput, byletter = false)
+        .then(ok ? inputOK : inputKO);
 }
 
 function activatePage(page) {
-    console.log("activate page " + page)
     PAGES.forEach(element => {
         document.getElementById(element).hidden = (page != element);
     });
@@ -302,19 +338,21 @@ function startRunning() {
     currentScore = 0;
     chancesCount = CHANCES_NB;
     gameCountDown = selectedDurations[0] * 60;
-    console.log('cd:' + gameCountDown);
     activatePage("game_page");
-    nextTurn();
     runGame();
+    
+    hideKeyboard();
+    nextTurn()
+        .then(showKeyboard);
+
 }
 
 function runGame() {
-
     if (statusCountDown) {
         statusCountDown--;
     }
     else {
-        document.getElementById("status").innerHTML = formatDuration(gameCountDown);
+        document.getElementById("timer").innerHTML = formatDuration(gameCountDown);
     }
     if (gameCountDown) {
         gameCountDown--;
@@ -338,7 +376,7 @@ function nextTurn() {
     let choice = choose(questions);
     currentQuestion = choice;
     currentAnswer = choice[3];
-    displayOperation("");
+    return clearInput();
 }
 
 function gameLoop() {
