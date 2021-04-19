@@ -1,44 +1,56 @@
+@media (min-width: 1025px) {
+    html {
+        font-size: 100%;
+    }
+  }
+
+  @media (min-height: 1025px) {
+    html {
+        font-size: 150%;
+    }
+  }
+
 .page {
     text-align: center;
-    padding: 2em;
+    padding: 2rem;
     font-family: 'Courier New', Courier, monospace
 }
 
 .page img {
-    width: 10em;
+    width: 10rem;
 }
 
 
 #countdown {
-    font-size: 5em;
+    font-size: 5rem;
 }
 
 .final_score {
-    font-size: 8em;
+    font-size: 8rem;
 }
 
 .select-menu button {
     border: none;
-    margin: 1em;
-    width: 5em;
-    height: 6em;
+    margin: 1rem;
+    width: 5rem;
+    height: 6rem;
 }
 
 .operation button {
     margin: 0;
     border: none;
-    width: 5em;
-    height: 6em; 
+    width: 5rem;
+    height: 6rem; 
 }
 
 .keyboard {
-    margin: 1em;
+    margin: 1rem;
 }
 
 .keyboard button {
     border: none;
-    width: 5em;
-    height: 6em; 
+    width: 5rem;
+    height: 6rem; 
 }
 
 .digit-0 {
@@ -126,13 +138,13 @@
 }
 
 .operation {
-    font-size: 5em;
+    font-size: 5rem;
     color: black;
     text-align: center;
 }
 
 .status {
-    font-size: 1em;
+    font-size: 1rem;
     text-align: center;
 }
 
