@@ -58,6 +58,10 @@ function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
 }
 
+function sleep2000() {
+    return sleep(2000);
+}
+
 function initButtons(id, allElements, selection, single = false) {
     let div = document.getElementById(id + "s");
     allElements.forEach(function (n) {
@@ -334,12 +338,15 @@ function runSplash() {
 function passTurn() {
     if (chancesCount > 0) {
         chancesCount--;
-        nextTurn();
-        if (chancesCount > 0) {
-            splashStatus("Il reste " + chancesCount + " Jokers");
-        }
+        hideKeyboard();
+        splashStatus("Il reste " + chancesCount + " Jokers")
+            .then(nextTurn)
+            .then(showKeyboard)
     } else {
+        hideKeyboard();
         splashStatus("Aucun Joker")
+            .then(clearInput)
+            .then(showKeyboard)
     }
 }
 
