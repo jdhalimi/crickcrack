@@ -47,7 +47,7 @@
     height: 6rem; 
 }
 
-.keyboard {
+#keyboard {
     bottom: 3rem;
     text-align: center;
     position: fixed;

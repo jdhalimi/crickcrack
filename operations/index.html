@@ -44,30 +44,32 @@
 				<span id="status"></span>
 			</div>
 
-			<div class="keyboard" id="clavier">
-				<div>
-					<button class="digit-1" onclick="inputDigit(1)"></button>
-					<button class="digit-2" onclick="inputDigit(2)"></button>
-					<button class="digit-3" onclick="inputDigit(3)"></button>
+			<div id="keyboard">
+				<div class="keyboard">
+					<div>
+						<button class="digit-1" onclick="inputDigit(1)"></button>
+						<button class="digit-2" onclick="inputDigit(2)"></button>
+						<button class="digit-3" onclick="inputDigit(3)"></button>
+					</div>
+					<div>
+						<button class="digit-4" onclick="inputDigit(4)"></button>
+						<button class="digit-5" onclick="inputDigit(5)"></button>
+						<button class="digit-6" onclick="inputDigit(6)"></button>
+					</div>
+					<div>
+						<button class="digit-7" onclick="inputDigit(7)"></button>
+						<button class="digit-8" onclick="inputDigit(8)"></button>
+						<button class="digit-9" onclick="inputDigit(9)"></button>
+					</div>
+					<div>
+						<button class="digit-minus" onclick="clearInput()"></button>
+						<button class="digit-0" onclick="inputDigit(0)"></button>
+						<button class="digit-plus" id="pass-btn" onclick="passTurn()"></button>
+					</div>
 				</div>
 				<div>
-					<button class="digit-4" onclick="inputDigit(4)"></button>
-					<button class="digit-5" onclick="inputDigit(5)"></button>
-					<button class="digit-6" onclick="inputDigit(6)"></button>
+					<button onclick="endGame()">Terminer</button>
 				</div>
-				<div>
-					<button class="digit-7" onclick="inputDigit(7)"></button>
-					<button class="digit-8" onclick="inputDigit(8)"></button>
-					<button class="digit-9" onclick="inputDigit(9)"></button>
-				</div>
-				<div>
-					<button class="digit-minus" onclick="clearInput()"></button>
-					<button class="digit-0" onclick="inputDigit(0)"></button>
-					<button class="digit-plus" id="pass-btn" onclick="passTurn()"></button>
-				</div>
-			</div>
-			<div>
-				<button onclick="endGame()">Terminer</button>
 			</div>
 		</div>
 
@@ -87,7 +89,7 @@
 				<button onclick="initGame()">Recommencer</button>
 			</div>
 		</div>
-    </div>
+	</div>
 </body>
 
 </html>

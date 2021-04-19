@@ -53,8 +53,8 @@ function initButtons(id, allElements, selection, single = false) {
     allElements.forEach(function (n) {
         let button = document.createElement('button');
         button.id = id + "-" + n;
-        button.className = "digit-"+ id + " not-selected";
-        
+        button.className = "digit-" + id + " not-selected";
+
         button.addEventListener('click', function () {
             if (single)
                 selection.splice(0, selection.length)
@@ -72,7 +72,7 @@ function initButtons(id, allElements, selection, single = false) {
 
 function refreshButtons(id, allElements, selection) {
     allElements.forEach(function (x) {
-        document.getElementById(id + "-" + x).className = (id+"-button "+
+        document.getElementById(id + "-" + x).className = (id + "-button " +
             "digit-" + x + " " +
             ((selection.indexOf(x) >= 0) ? "selected" : "not-selected"));
     });
@@ -123,26 +123,55 @@ function inputDigit(digit) {
     }
 }
 
+function printLetterByLetter(destination, message, speed) {
+    let dest = document.getElementById(destination);
+    let html = "";
+    var i = 0;
+    if (speed) {
+        var interval = setInterval(function () {
+            if (i >= message.length) {
+                clearInterval(interval);
+            } else {
+                html += message[i];
+                dest.innerHTML = html;
+                i++;
+            }
+        }, speed);
+    }
+    else {
+        for (var i = 0; i < message.length; i++) {
+            html += message[i];
+        }
+        dest.innerHTML = html;
+    }
+}
+
 function displayOperation(input) {
     let x = currentQuestion[0];
     let o = currentQuestion[1];
     let y = currentQuestion[2];
-    console.log(currentQuestion, x,o,y, input)
+    let letters = [];
+    console.log(currentQuestion, x, o, y, input)
     let html = "";
-    id="operation"
+    id = "operation"
     for (var i = 0; i < x.length; i++) {
-        html += '<button class="digit-' + x[i] +'"> </button>';
+        letters.push('<button class="digit-' + x[i] + '"> </button>');
     }
-    html += '<button class="digit-' + o +'"> </button>';
+    letters.push('<button class="digit-' + o + '"> </button>');
     for (var i = 0; i < y.length; i++) {
-        html += '<button class="digit-' + y[i] +'"> </button>';
+        letters.push('<button class="digit-' + y[i] + '"> </button>');
     }
-    html += '<button class="digit-equals"> </button>';
-    for (var i = 0; i < input.length; i++) {
-        html += '<button class="digit-' + input[i] +'"> </button>';
+    letters.push('<button class="digit-equals"> </button>');
+
+    let delay = 200;
+    if (input.length) {
+        delay = 0;
+        for (var i = 0; i < input.length; i++) {
+            letters.push('<button class="digit-' + input[i] + '"> </button>');
+        }
     }
-    let operationCtrl = document.getElementById("operation");
-    operationCtrl.innerHTML = html;
+
+    printLetterByLetter("operation", letters, delay);
 }
 
 
@@ -152,10 +181,13 @@ function updateScore() {
 
 function splashStatus(msg, classname) {
     let status = document.getElementById("status");
+    let keyboard = document.getElementById("keyboard");
     status.innerHTML = msg;
+
+    keyboard.hidden = true;
     sleep(500).then(function () {
-        operation.className = "";
         status.innerHTML = formatDuration(gameCountDown);
+        keyboard.hidden = false;
     })
 }
 
@@ -200,10 +232,10 @@ function startGame() {
     let x = 0;
     let y = 0;
     let z = 0;
-    
+
     questions.splice(0, questions.length);
     answers.splice(0, answers.length);
-    
+
     ALL_NUMBERS.forEach(function (a) {
         selectedTables.forEach(function (b) {
             selectedOperations.forEach(function (o) {
@@ -298,9 +330,6 @@ function endGame() {
 
     document.getElementById("final_score").innerHTML = currentScore + "/" + questionsCount;
     let list_anwsers = document.getElementById("answers");
-    answers.forEach(function (o) {
-        list_anwsers.append(o)
-    })
 }
 
 function nextTurn() {
