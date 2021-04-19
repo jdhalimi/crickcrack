@@ -24,6 +24,11 @@
     width: 10rem;
 }
 
+.page button {
+    font-size: 150%;
+    padding: 0.7rem;
+    margin-top: 1rem;
+}
 
 #countdown {
     font-size: 5rem;
@@ -63,6 +68,7 @@
 
 .keyboard button {
     border: none;
+    margin: 0;
     width: 5rem;
     height: 6rem; 
 }
