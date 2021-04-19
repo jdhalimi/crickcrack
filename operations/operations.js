@@ -10,8 +10,16 @@ const CORRECTION_CD = 1
 const CHANCES_NB = 3;
 
 const PAGES = ["init_page", "countdown_page", "game_page", "end_page"];
-const OK_MESSAGES = ["super", "bravo", "youpi", "cool", "bien"];
-const KO_MESSAGES = ["zut", "c'est faux", "dommage", "mince alors", "courage"];
+
+const OK_MESSAGES = [
+    "c'est exact", "bravo", 
+    "c'est bien çà", "çà roule", 
+    "c'est bien"];
+
+const KO_MESSAGES = [
+    "non, c'est pas çà", "c'est faux", 
+    "encore raté", "recommence", 
+    "aller courage"];
 
 const OP_PLUS = "plus";
 const OP_TIMES = "times";
@@ -198,7 +206,6 @@ function displayOperation(input, byletter = false) {
     });
 }
 
-
 function updateScore() {
     document.getElementById("score").innerHTML = currentScore + "/" + n;
 }
@@ -209,7 +216,7 @@ function splashStatus(msg, classname = "") {
         status.innerHTML = msg;
         status.hidden = false;
         status.className = classname;
-        sleep(500).then(function () {
+        sleep(1000).then(function () {
             status.hidden = true;
         })
         resolve();
@@ -340,7 +347,7 @@ function startRunning() {
     gameCountDown = selectedDurations[0] * 60;
     activatePage("game_page");
     runGame();
-    
+
     hideKeyboard();
     nextTurn()
         .then(showKeyboard);
