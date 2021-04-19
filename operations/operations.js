@@ -13,10 +13,16 @@ const PAGES = ["init_page", "countdown_page", "game_page", "end_page"];
 const OK_MESSAGES = ["super", "bravo", "youpi", "cool", "bien"];
 const KO_MESSAGES = ["zut", "c'est faux", "dommage", "mince alors", "courage"];
 
+const OP_PLUS = "plus";
+const OP_TIMES = "times";
+const OP_MINUS = "minus";
+const OP_DIVIDE = "divide";
+const OP_EQUAL = "equals";
+
 const ALL_NUMBERS = [0, 1, 2, 3, 5, 6, 7, 8, 9, 10];
 const ALL_DURATIONS = [1, 2, 3, 5];
 const ALL_TABLES = [2, 3, 4, 5, 6, 7, 8, 9];
-const ALL_OPERATIONS = ['+', '-', '/', 'x'];
+const ALL_OPERATIONS = [OP_PLUS, OP_MINUS, OP_DIVIDE, OP_TIMES];
 
 
 var splashCountDown = SPLASH_CD;
@@ -31,8 +37,9 @@ let questionsCount = 0;
 
 let selectedDurations = [1];
 let selectedTables = [2, 3, 4];
-let selectedOperations = ['+'];
+let selectedOperations = [OP_PLUS];
 let questions = [];
+let answers = [];
 
 let currentQuestion = "";
 let currentAnswer = 0;
@@ -46,8 +53,8 @@ function initButtons(id, allElements, selection, single = false) {
     allElements.forEach(function (n) {
         let button = document.createElement('button');
         button.id = id + "-" + n;
-        button.innerHTML = n;
-        button.className = "not-selected";
+        button.className = "digit-"+ id + " not-selected";
+        
         button.addEventListener('click', function () {
             if (single)
                 selection.splice(0, selection.length)
@@ -65,7 +72,9 @@ function initButtons(id, allElements, selection, single = false) {
 
 function refreshButtons(id, allElements, selection) {
     allElements.forEach(function (x) {
-        document.getElementById(id + "-" + x).className = (selection.indexOf(x) >= 0) ? "selected" : "not-selected";
+        document.getElementById(id + "-" + x).className = (id+"-button "+
+            "digit-" + x + " " +
+            ((selection.indexOf(x) >= 0) ? "selected" : "not-selected"));
     });
 }
 
@@ -115,8 +124,25 @@ function inputDigit(digit) {
 }
 
 function displayOperation(input) {
+    let x = currentQuestion[0];
+    let o = currentQuestion[1];
+    let y = currentQuestion[2];
+    console.log(currentQuestion, x,o,y, input)
+    let html = "";
+    id="operation"
+    for (var i = 0; i < x.length; i++) {
+        html += '<button class="digit-' + x[i] +'"> </button>';
+    }
+    html += '<button class="digit-' + o +'"> </button>';
+    for (var i = 0; i < y.length; i++) {
+        html += '<button class="digit-' + y[i] +'"> </button>';
+    }
+    html += '<button class="digit-equals"> </button>';
+    for (var i = 0; i < input.length; i++) {
+        html += '<button class="digit-' + input[i] +'"> </button>';
+    }
     let operationCtrl = document.getElementById("operation");
-    operationCtrl.innerHTML = currentQuestion + input;
+    operationCtrl.innerHTML = html;
 }
 
 
@@ -144,9 +170,11 @@ function checkInput() {
         currentScore = currentScore + 1;
         operation.className = "success";
         msg = choose(OK_MESSAGES);
+        answers.push([currentQuestion, currentAnswer, currentInput])
     } else {
         operation.className = "error";
         msg = choose(KO_MESSAGES);
+        answers.push([currentQuestion, currentAnswer, currentInput])
     }
     splashStatus(msg);
     sleep(500).then(function () {
@@ -172,41 +200,40 @@ function startGame() {
     let x = 0;
     let y = 0;
     let z = 0;
-    console.log('operations:' + selectedOperations);
-    console.log("tables " + selectedTables);
+    
     questions.splice(0, questions.length);
+    answers.splice(0, answers.length);
+    
     ALL_NUMBERS.forEach(function (a) {
         selectedTables.forEach(function (b) {
             selectedOperations.forEach(function (o) {
                 let n = getRandomInt(2);
                 switch (o) {
-                    case '+':
+                    case OP_PLUS:
                         x = n ? a : b;
                         y = n ? b : a;
                         z = a + b;
                         break;
-                    case '-':
+                    case OP_MINUS:
                         x = a + b;
                         y = b;
                         z = a;
                         break;
-                    case 'x':
+                    case OP_TIMES:
                         x = n ? a : b;
                         y = n ? b : a;
                         z = a * b;
                         break;
-                    case '/':
+                    case OP_DIVIDE:
                         x = a * b;
                         y = b;
                         z = a
                         break;
                 }
-                questions.push([x + "" + o + "" + y + "=", z]);
+                questions.push([String(x), o, String(y), z]);
             });
         })
     });
-    console.log(questions);
-
 
     state = SPLASH;
     activatePage("countdown_page");
@@ -270,14 +297,18 @@ function endGame() {
     activatePage("end_page");
 
     document.getElementById("final_score").innerHTML = currentScore + "/" + questionsCount;
+    let list_anwsers = document.getElementById("answers");
+    answers.forEach(function (o) {
+        list_anwsers.append(o)
+    })
 }
 
 function nextTurn() {
     currentInput = "";
-    questionsCount = questionsCount + 1;
+    questionsCount += 1;
     let choice = choose(questions);
-    currentQuestion = choice[0];
-    currentAnswer = choice[1];
+    currentQuestion = choice;
+    currentAnswer = choice[3];
     displayOperation("");
 }
 

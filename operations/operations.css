@@ -20,15 +20,19 @@
     font-size: 80px;
 }
 
-.page button {
-    border: 1;
+.select-menu button {
+    border: none;
     margin: 10px;
-    width: 170px;
-    height: 50px;
-    font-size: 20px;
-    font-weight: bold;
+    width: 50px;
+    height: 60px;
 }
 
+.operation button {
+    margin: 0;
+    border: none;
+    width: 50px;
+    height: 60px; 
+}
 
 .table-digit {
     border: 1;
@@ -41,24 +45,98 @@
     font-weight: bold;
 }
 
+.keyboard {
+    margin: 10px;
+}
+
+.keyboard button {
+    border: none;
+    width: 50px;
+    height: 60px; 
+}
+
+.digit-0 {
+    background-size: contain;
+    background-image: url("../img/digits/0.png");
+}
+
+.digit-1 {
+    background-size: contain;
+    background-image: url("../img/digits/1.png");
+}
+
+.digit-2 {
+    background-size: contain;
+    background-image: url("../img/digits/2.png");
+}
+
+.digit-3 {
+    background-size: contain;
+    background-image: url("../img/digits/3.png");
+}
+
+.digit-4 {
+    
+    background-size: contain;
+    background-image: url("../img/digits/4.png");
+}
+
+.digit-5 {
+    background-size: contain;
+    background-image: url("../img/digits/5.png");
+}
+
+.digit-6 {
+    background-size: contain;
+    background-image: url("../img/digits/6.png");
+}
+
+.digit-7 {
+    background-size: contain;
+    background-image: url("../img/digits/7.png");
+}
+
+.digit-8 {
+    background-size: contain;
+    background-image: url("../img/digits/8.png");
+}
+
+.digit-9 {
+    background-size: contain;
+    background-image: url("../img/digits/9.png");
+}
+
+.digit-plus {
+    background-size: contain;
+    background-image: url("../img/digits/plus.png");
+}
+
+.digit-minus {
+    background-size: contain;
+    background-image: url("../img/digits/minus.png");
+}
+
+.digit-equals {
+    background-size: contain;
+    background-image: url("../img/digits/equals.png");
+}
+
+.digit-times {
+    background-size: contain;
+    background-image: url("../img/digits/times.png");
+}
+
+.digit-divide {
+    background-size: contain;
+    background-image: url("../img/digits/divide.png");
+}
+
 .not-selected {
-    background-color: #c0c5cf;
-    color: brown;
+    opacity: 0.5;
 }
 
 .selected {
-    color: #c0c5cf;
-    background-color: brown;
-}
-
-#clavier button {
-    border: 1;
-    margin: 0.2rem;
-    width: 5rem;
-    height: 5rem;
-    background-color: #c0c5cf;
-    color: brown;
-    font-size: 20px;
+    opacity: 1;
 }
 
 .operation {
@@ -66,7 +144,6 @@
     color: black;
     text-align: center;
 }
-
 
 .status {
     font-size: 3rem;
