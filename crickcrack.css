@@ -1,12 +1,24 @@
-@media (min-width: 1025px) {
+@media (min-height: 500px) {
     html {
-        font-size: 100%;
+        font-size: 70%;
+    }
+  }
+
+  @media (min-height: 800px) {
+    html {
+        font-size: 200%;
     }
   }
 
   @media (min-height: 1025px) {
     html {
-        font-size: 130%;
+        font-size: 200%;
+    }
+  }
+
+  @media (min-height: 1300px) {
+    html {
+        font-size: 150%;
     }
   }
 

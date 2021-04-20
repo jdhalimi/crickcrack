@@ -129,15 +129,11 @@ function printMessageByLetter(id, message, speed) {
 // --------------------------
 // pages
 // --------------------------
-function activatePage(id) {
-    ALL_PAGES.forEach(element => {
-        document.getElementById(element).hidden = (id != element);
-    });
-}
 
-function getEmptyPage() {
+function getEmptyPage(className = "") {
     let content = document.getElementById("page-content");
     content.innerHTML = "";
+    content.className = className;
     return content;
 }
 
@@ -147,9 +143,10 @@ function getEmptyPage() {
 function createIntroButtons(id, allElements, selection, single = false) {
     let div = document.getElementById(id + "s");
     allElements.forEach(function (n) {
-        let button = document.createElement('button');
-        button.id = id + "-" + n;
-        button.className = "digit-" + id + " not-selected";
+        let button = document.createElement('img');
+        button.id = id + '-' + n;
+        button.src = "../img/digits/" + n + ".png"
+        button.className = "not-selected";
 
         button.addEventListener('click', function () {
             if (single)
@@ -171,16 +168,15 @@ function createIntroButtons(id, allElements, selection, single = false) {
 
 function refreshIntroButtonsState(id, allElements, selection) {
     allElements.forEach(function (x) {
-        document.getElementById(id + "-" + x).className = (id + "-button " +
-            "digit-" + x + " " +
-            ((selection.indexOf(x) >= 0) ? "selected" : "not-selected"));
+        document.getElementById(id + "-" + x).className = 
+            ((selection.indexOf(x) >= 0) ? "selected" : "not-selected");
     });
 }
 
 function displayIntroPage(id, label, all, selected, single = false) {
     return new Promise(resolve => {
         let content = getEmptyPage();
-        let header = document.createElement('h3');
+        let header = document.createElement('h1');
         header.innerHTML = label
         content.appendChild(header)
         let tableButtons = document.createElement('div');
@@ -224,8 +220,8 @@ function pageChooseDuration() {
 
 function countDownPage() {
     return new Promise(resolve => {
-        let content = getEmptyPage();
-        let label = document.createElement('h3')
+        let content = getEmptyPage("countdown");
+        let label = document.createElement('h1')
         label.innerHTML = "ca commence dans"
         content.appendChild(label)
 
@@ -250,8 +246,8 @@ function countDownPage() {
 // --------------------------
 
 function createKeyboardDigitButton(id) {
-    let button = document.createElement('button');
-    button.className = "digit-" + id;
+    let button = document.createElement('img');
+    button.src = "../img/digits/" + id + ".png"
     button.addEventListener('click', function () {
         inputDigit(id);
     });
@@ -259,8 +255,8 @@ function createKeyboardDigitButton(id) {
 }
 
 function createKeyboardActionButton(id, action) {
-    let button = document.createElement('button');
-    button.className = "digit-" + id;
+    let button = document.createElement('img');
+    button.src = "../img/digits/" + id + ".png"
     button.addEventListener('click', function () {
         action();
     });
@@ -271,7 +267,7 @@ function createKeyboard() {
     let keyboardElement = document.createElement('div')
     keyboardElement.id = "keyboard";
 
-    let keyboard= document.createElement('div')
+    let keyboard = document.createElement('div')
     keyboard.className = "keyboard";
 
     let row1 = document.createElement('div');
@@ -306,7 +302,7 @@ function gamePage() {
     return new Promise(resolve => {
         let content = getEmptyPage();
 
-        let label = document.createElement('h3')
+        let label = document.createElement('h1')
         label.id = "label";
         content.appendChild(label);
 
@@ -410,17 +406,17 @@ function createQuestionLetters(question, input) {
     let html = "";
     id = "operation"
     for (var i = 0; i < x.length; i++) {
-        letters.push('<button class="digit-' + x[i] + '"> </button>');
+        letters.push('<img src="../img/digits/' + x[i] + '.png">');
     }
-    letters.push('<button class="digit-' + o + '"> </button>');
+    letters.push('<img src="../img/digits/' + o + '.png">');
     for (var i = 0; i < y.length; i++) {
-        letters.push('<button class="digit-' + y[i] + '"> </button>');
+        letters.push('<img src="../img/digits/' + y[i] + '.png">');
     }
-    letters.push('<button class="digit-equals"> </button>');
+    letters.push('<img src="../img/digits/equals.png">');
 
     if (input.length) {
         for (var i = 0; i < input.length; i++) {
-            letters.push('<button class="digit-' + input[i] + '"> </button>');
+            letters.push('<img src="../img/digits/' + input[i] + '.png">');
         }
     }
 
@@ -580,6 +576,9 @@ function startApp() {
 
 window.addEventListener('load', function () {
     startApp();
+
+    var lang = navigator.language || navigator.userLanguage;
+    console.log(lang)
 });
 
 window.addEventListener('keydown', function (e) {
