@@ -4,7 +4,7 @@ Crick Crack is a simmple javascript app to help arithmetic operations learning.
 
 My children don't care, but perhaps yours will appreciate ;)
 
-[<img src="img/children/bravo.png">](https://jdhalimi.github.io/crickcrack)
+[<img src="img/logo.png">](https://jdhalimi.github.io/crickcrack)
 
 - https://jdhalimi.github.io/crickcrack
 
