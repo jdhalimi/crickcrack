@@ -1,6 +1,6 @@
 # Welcome to Crick Crack
 
-Crick Crack is a dummy JS site to help arythmetic operations learning
+Crick Crack is a dummy JS site to help arithmetic operations learning.
 
 [<img src="img/children/bravo.png">](https://jdhalimi.github.io/crickcrack)
 
@@ -9,12 +9,14 @@ Crick Crack is a dummy JS site to help arythmetic operations learning
 
 ## Development
 
-Development is "pure" beginner javascript. Special grettings to stack overflow. 
+Development is "pure" beginner javascript. 
+
+Special grettings to stack overflow. 
 
 
 ## Contributing
 
-Please do not hesitate to propose improvments or fork it.
+Please do not hesitate to propose improvements or fork it.
 
 
 ## Resources

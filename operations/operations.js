@@ -557,7 +557,7 @@ function resultPage() {
     return new Promise(resolve => {
         let content = getEmptyPage();
         content.innerHTML += '<img src="../img/children/bravo.png" alt="bravo">'
-        content.innerHTML += "<h3>ton score est " + currentScore + "/" + questionsCount + "</h3>";
+        content.innerHTML += "<h1>ton score est " + currentScore + " bonnes réponses sur " + questionsCount + " questions</h1>";
 
         let nextButton = document.createElement('button');
         nextButton.innerHTML = "Recommencer";
