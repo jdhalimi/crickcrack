@@ -1,100 +1,20 @@
 <html>
-
 <head>
 	<title>Crick-Crack</title>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="operations.css">
 	<script type="text/javascript" src="operations.js"></script>
 </head>
-
 <body>
 	<div class="page">
 		<h1>Crick-Crack</h1>
-		<div id="init_page">
-			<div class="select-menu">
-				<div id="tables" class="tables">
-					<h3>Choisis tes tables</h3>
-				</div>
-				<div id="operations" class="operations">
-					<h3>Choisis tes operations</h3>
-				</div>
-				<div id="durations" class="durations">
-					<h3>Choisis combien de minutes</h3>
-				</div>
-			</div>
-			<div>
-				<button onclick="startGame()">Commencer</button>
-			</div>
-		</div>
 
-		<div id="countdown_page">
-			<div>
-				<img src="assets/perso2.png" alt="perso">
-			</div>
-			<div>
-				<span id="countdown"></span>
-			</div>
-		</div>
-
-		<div id="game_page">
-			<div class="label">
-				<h2 id="label"></h2>
-			</div>
-			<div class="operation">
-				<div id="operation"></div>
-			</div>
-			<div class="timer">
-				<span id="timer"></span>
-			</div>
-			<div class="status">
-				<span id="status"></span>
-			</div>
-			<div id="keyboard">
-				<div class="keyboard">
-					<div>
-						<button class="digit-1" onclick="inputDigit(1)"></button>
-						<button class="digit-2" onclick="inputDigit(2)"></button>
-						<button class="digit-3" onclick="inputDigit(3)"></button>
-					</div>
-					<div>
-						<button class="digit-4" onclick="inputDigit(4)"></button>
-						<button class="digit-5" onclick="inputDigit(5)"></button>
-						<button class="digit-6" onclick="inputDigit(6)"></button>
-					</div>
-					<div>
-						<button class="digit-7" onclick="inputDigit(7)"></button>
-						<button class="digit-8" onclick="inputDigit(8)"></button>
-						<button class="digit-9" onclick="inputDigit(9)"></button>
-					</div>
-					<div>
-						<button class="digit-minus" onclick="clearInput()"></button>
-						<button class="digit-0" onclick="inputDigit(0)"></button>
-						<button class="digit-plus" id="pass-btn" onclick="passTurn()"></button>
-					</div>
-				</div>
-				<div>
-					<button onclick="endGame()">Terminer</button>
-				</div>
-			</div>
-		</div>
-
-		<div id="end_page">
-			<div>
-				<img src="../img/children/bravo.png" alt="bravo">
-			</div>
-
-			<h3>
-				Ton score est <span id="final_score"></span>
-			</h3>
-
-			<div id="answers">
-			</div>
-
-			<div>
-				<button onclick="initGame()">Recommencer</button>
-			</div>
-		</div>
+		<div id="page-content"></div>
 	</div>
 </body>
-
+<footer>
+	copyright Jean-David HALIMI (c) 2021-
+	source code on <a href="https://github.com/jdhalimi/crickcrack">github</a> -
+	see MIT <a href="https://raw.githubusercontent.com/jdhalimi/crickcrack/main/LICENSE">licence</a>
+</footer>
 </html>
