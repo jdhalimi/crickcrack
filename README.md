@@ -1,10 +1,11 @@
 # Welcome to Crick Crack
 
-Crick Crack is a simmple javascript app to help arithmetic operations learning.
+[<img src="img/logo.png">](https://jdhalimi.github.io/crickcrack)
+
+
+Crick Crack is a simple javascript training app for arithmetic operations learning.
 
 My children don't care, but perhaps yours will appreciate ;)
-
-[<img src="img/logo.png">](https://jdhalimi.github.io/crickcrack)
 
 - https://jdhalimi.github.io/crickcrack
 
