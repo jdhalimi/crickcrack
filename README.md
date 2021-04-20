@@ -1,6 +1,8 @@
 # Welcome to Crick Crack
 
-Crick Crack is a dummy JS site to help arithmetic operations learning.
+Crick Crack is a simmple javascript app to help arithmetic operations learning.
+
+My children don't care, but perhaps yours will appreciate ;)
 
 [<img src="img/children/bravo.png">](https://jdhalimi.github.io/crickcrack)
 
@@ -11,17 +13,21 @@ Crick Crack is a dummy JS site to help arithmetic operations learning.
 
 Development is "pure" beginner javascript. 
 
-Special grettings to stack overflow. 
+An occasion for me to learn and recieve advices from community, special grettings to stack overflow. 
+
+The CSS is trying to fit ipad / iphone and mobile devices for mobile usage.
 
 
 ## Contributing
 
 Please do not hesitate to propose improvements or fork it.
 
+I need help on CSS, Javascript.
+
 
 ## Resources
 
-Digits designed by *brgfx* on FreePik
+Digits designed with talent by *brgfx* on FreePik
 
 - https://www.freepik.com/brgfx
 
