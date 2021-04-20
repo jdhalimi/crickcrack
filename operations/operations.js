@@ -9,7 +9,11 @@ const SPLASH_CD = 3;
 const CORRECTION_CD = 1
 const CHANCES_NB = 3;
 
-const PAGES = ["init_page", "countdown_page", "game_page", "end_page"];
+const ALL_PAGES = [
+    "init_page", 
+    "countdown_page", 
+    "game_page", 
+    "end_page"];
 
 const OK_MESSAGES = [
     "c'est exact", 
@@ -33,7 +37,6 @@ const ALL_DURATIONS = [1, 2, 3, 5];
 const ALL_TABLES = [2, 3, 4, 5, 6, 7, 8, 9];
 const ALL_OPERATIONS = [OP_PLUS, OP_MINUS, OP_DIVIDE, OP_TIMES];
 
-
 var splashCountDown = SPLASH_CD;
 let gameCountDown = GAME_CD;
 let inGame = true;
@@ -48,11 +51,15 @@ let questionsCount = 0;
 let selectedDurations = [1];
 let selectedTables = [2, 3, 4];
 let selectedOperations = [OP_PLUS];
-let questions = [];
+let allQuestions = [];
 let answers = [];
 
 let currentQuestion = "";
 let currentAnswer = 0;
+
+// --------------------------
+// utility functions
+// --------------------------
 
 function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
@@ -62,44 +69,13 @@ function sleep2000() {
     return sleep(2000);
 }
 
-function initButtons(id, allElements, selection, single = false) {
-    let div = document.getElementById(id + "s");
-    allElements.forEach(function (n) {
-        let button = document.createElement('button');
-        button.id = id + "-" + n;
-        button.className = "digit-" + id + " not-selected";
-
-        button.addEventListener('click', function () {
-            if (single)
-                selection.splice(0, selection.length)
-            let i = selection.indexOf(n);
-            if (i >= 0) {
-                removeElement(selection, n);
-            } else {
-                selection.push(n);
-            }
-            initRefreshDisplay();
-        });
-        div.appendChild(button);
-    })
+function sleep500() {
+    return sleep(500);
 }
 
-function refreshButtons(id, allElements, selection) {
-    allElements.forEach(function (x) {
-        document.getElementById(id + "-" + x).className = (id + "-button " +
-            "digit-" + x + " " +
-            ((selection.indexOf(x) >= 0) ? "selected" : "not-selected"));
-    });
-}
-
-function initRefreshDisplay() {
-    refreshButtons("duration", ALL_DURATIONS, selectedDurations);
-    refreshButtons("table", ALL_TABLES, selectedTables);
-    refreshButtons("operation", ALL_OPERATIONS, selectedOperations);
-}
-
-function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
+function removeElement(a, n) {
+    let index = a.indexOf(n);
+    a.splice(index, 1);
 }
 
 function choose(choices) {
@@ -111,6 +87,10 @@ function pad(x) {
     return (x < 10) ? ("0" + x) : x;
 }
 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
 function formatDuration(s) {
     var hour = Math.floor(s / 3600);
     var minute = Math.floor((s - hour * 3600) / 60);
@@ -118,40 +98,8 @@ function formatDuration(s) {
     return pad(minute) + ":" + pad(seconds)
 }
 
-function showKeyboard() {
-    let keyboard = document.getElementById("keyboard")
-    keyboard.hidden = false;
-    inGame = true;
-}
-
-function hideKeyboard() {
-    let keyboard = document.getElementById("keyboard")
-    keyboard.hidden = true;
-    inGame = false;
-}
-
-function clearInput() {
-    currentInput = "";
-    let label = document.getElementById("label");
-    label.innerHTML = "trouve le resultat de"
-    return displayOperation("", byletter = true);
-}
-
-function removeElement(a, n) {
-    let index = a.indexOf(n);
-    a.splice(index, 1);
-}
-
-function inputDigit(digit) {
-    currentInput = currentInput + digit;
-    let current = parseInt(currentInput);
-    let verify = (currentAnswer.toString().length == current.toString().length);
-    displayOperation(currentInput).then(verify ? checkInput : null)
-}
-
-
-function printMessage(destination, message) {
-    let dest = document.getElementById(destination);
+function printMessage(id, message) {
+    let dest = document.getElementById(id);
     let html = "";
     for (var i = 0; i < message.length; i++) {
         html += message[i];
@@ -159,9 +107,9 @@ function printMessage(destination, message) {
     dest.innerHTML = html;
 }
 
-function printMessageByLetter(destination, message, speed) {
+function printMessageByLetter(id, message, speed) {
     return new Promise(resolve => {
-        let dest = document.getElementById(destination);
+        let dest = document.getElementById(id);
         let html = "";
         var i = 0;
         var interval = setInterval(function () {
@@ -177,48 +125,146 @@ function printMessageByLetter(destination, message, speed) {
     });
 }
 
+// --------------------------
+// pages
+// --------------------------
+function activatePage(id) {
+    ALL_PAGES.forEach(element => {
+        document.getElementById(element).hidden = (id != element);
+    });
+}
+
+// --------------------------
+// introduction page
+// --------------------------
+function createIntroButtons(id, allElements, selection, single = false) {
+    let div = document.getElementById(id + "s");
+    allElements.forEach(function (n) {
+        let button = document.createElement('button');
+        button.id = id + "-" + n;
+        button.className = "digit-" + id + " not-selected";
+
+        button.addEventListener('click', function () {
+            if (single)
+                selection.splice(0, selection.length)
+            let i = selection.indexOf(n);
+            if (i >= 0) {
+                removeElement(selection, n);
+            } else {
+                selection.push(n);
+            }
+            refreshIntroButtonsState(id, allElements, selection);
+        });
+        div.appendChild(button);
+    })
+
+    // update current state
+    refreshIntroButtonsState(id, allElements, selection);
+}
+
+function refreshIntroButtonsState(id, allElements, selection) {
+    allElements.forEach(function (x) {
+        document.getElementById(id + "-" + x).className = (id + "-button " +
+            "digit-" + x + " " +
+            ((selection.indexOf(x) >= 0) ? "selected" : "not-selected"));
+    });
+}
+
+// --------------------------
+// count down page
+// --------------------------
+
+function countDownPage() {
+    console.log('run splash ' + splashCountDown);
+    if (splashCountDown >= 0) {
+        text = (splashCountDown == 0) ? "Partez !" : splashCountDown + " ...";
+        document.getElementById("countdown").innerHTML = text;
+        splashCountDown--;
+    }
+    else {
+        startRunning();
+    }
+}
+
+// --------------------------
+// training page
+// --------------------------
+
+function createQuestionLetters(question, input) {
+    let x = question.operand1.toString();
+    let o = question.operation;
+    let y = question.operand2.toString();
+
+    let letters = [];
+    let html = "";
+    id = "operation"
+    for (var i = 0; i < x.length; i++) {
+        letters.push('<button class="digit-' + x[i] + '"> </button>');
+    }
+    letters.push('<button class="digit-' + o + '"> </button>');
+    for (var i = 0; i < y.length; i++) {
+        letters.push('<button class="digit-' + y[i] + '"> </button>');
+    }
+    letters.push('<button class="digit-equals"> </button>');
+
+    if (input.length) {
+        for (var i = 0; i < input.length; i++) {
+            letters.push('<button class="digit-' + input[i] + '"> </button>');
+        }
+    }
+
+    return letters;
+}
+
 function displayOperation(input, byletter = false) {
     return new Promise(resolve => {
-        let x = currentQuestion[0];
-        let o = currentQuestion[1];
-        let y = currentQuestion[2];
-
-        let letters = [];
-        let html = "";
-        id = "operation"
-        for (var i = 0; i < x.length; i++) {
-            letters.push('<button class="digit-' + x[i] + '"> </button>');
-        }
-        letters.push('<button class="digit-' + o + '"> </button>');
-        for (var i = 0; i < y.length; i++) {
-            letters.push('<button class="digit-' + y[i] + '"> </button>');
-        }
-        letters.push('<button class="digit-equals"> </button>');
-
-        let delay = 200;
-        if (input.length) {
-            for (var i = 0; i < input.length; i++) {
-                letters.push('<button class="digit-' + input[i] + '"> </button>');
-            }
-        }
-
+        let letters = createQuestionLetters(currentQuestion, input);
+        
         if (byletter) {
-            printMessageByLetter("operation", letters, delay)
+            printMessageByLetter("operation", letters, speed=100)
                 .then(resolve)
         }
         else {
             printMessage("operation", letters)
             resolve();
         }
-
     });
 }
 
-function updateScore() {
-    document.getElementById("score").innerHTML = currentScore + "/" + n;
+function displayAnswer() {
+    let label = document.getElementById("label");
+    label.innerHTML = "le bon resultat est"
+    return displayOperation(currentAnswer.toString(), byletter = true)
 }
 
-function splashStatus(msg, classname = "") {
+function showKeyboard() {
+    let keyboard = document.getElementById("keyboard")
+    keyboard.hidden = false;
+    inGame = true;
+}
+
+function hideKeyboard() {
+    let keyboard = document.getElementById("keyboard")
+    keyboard.hidden = true;
+    inGame = false;
+}
+
+function inputClear() {
+    currentInput = "";
+
+    let label = document.getElementById("label");
+    label.innerHTML = "trouve le resultat de"
+    return displayOperation("", byletter = true);
+}
+
+function inputDigit(digit) {
+    currentInput = currentInput + digit;
+    let current = parseInt(currentInput);
+    let verify = (currentAnswer.toString().length == current.toString().length);
+    displayOperation(currentInput).then(verify ? inputCheck : null)
+}
+
+function flashStatus(msg, classname = "") {
     return new Promise(resolve => {
         let status = document.getElementById("status");
         status.innerHTML = msg;
@@ -237,9 +283,11 @@ function inputOK() {
     answers.push([currentQuestion, currentAnswer, currentInput])
 
     hideKeyboard();
-    splashStatus(msg, "success")
-        .then(function () { return sleep(1500) })
-        .then(nextTurn)
+
+    return flashStatus(msg, "success")
+        .then(sleep2000)
+        .then(nextQuestion)
+        .then(sleep500)
         .then(showKeyboard)
 }
 
@@ -248,45 +296,55 @@ function inputKO() {
     answers.push([currentQuestion, currentAnswer, currentInput])
 
     hideKeyboard();
-    splashStatus(msg, "error")
-        .then(function () { return sleep(1500) })
-        .then(function () {
-            let label = document.getElementById("label");
-            label.innerHTML = "le bon resultat est"
-            return displayOperation(String(currentAnswer), byletter = true)
-        })
-        .then(function () { return sleep(2000); })
-        .then(nextTurn)
+
+    return flashStatus(msg, "error")
+        .then(sleep2000)
+        .then(displayAnswer)
+        .then(sleep2000)
+        .then(nextQuestion)
+        .then(sleep500)
         .then(showKeyboard)
 }
 
-function checkInput() {
+function inputCheck() {
     let inputValue = parseInt(currentInput);
     let ok = (currentAnswer == inputValue);
-    displayOperation(currentInput, byletter = false)
+
+    return displayOperation(currentInput, byletter = false)
         .then(ok ? inputOK : inputKO);
 }
 
-function activatePage(page) {
-    PAGES.forEach(element => {
-        document.getElementById(element).hidden = (page != element);
-    });
+function passTurn() {
+    if (chancesCount > 0) {
+        chancesCount--;
+        hideKeyboard();
+        return flashStatus("Il reste " + chancesCount + " Jokers")
+            .then(nextQuestion)
+            .then(showKeyboard)
+    } else {
+        hideKeyboard();
+        return flashStatus("Aucun Joker")
+            .then(nextQuestion)
+            .then(showKeyboard)
+    }
 }
 
-function initGame() {
-    state = INIT;
-    gameCountDown = GAME_CD;
-    activatePage("init_page")
+function nextQuestion() {
+    currentInput = "";
+    questionsCount += 1;
+    currentQuestion = choose(allQuestions);
+    currentAnswer = currentQuestion.answser;
+
+    return inputClear();
 }
 
-function startGame() {
-    let x = 0;
-    let y = 0;
-    let z = 0;
+// -------------------------
+// game steps
+// -------------------------
 
-    questions.splice(0, questions.length);
-    answers.splice(0, answers.length);
-
+function createQuestions(tables, operations) {
+    allQuestions.splice(0, allQuestions.length);
+    
     ALL_NUMBERS.forEach(function (a) {
         selectedTables.forEach(function (b) {
             selectedOperations.forEach(function (o) {
@@ -313,41 +371,24 @@ function startGame() {
                         z = a
                         break;
                 }
-                questions.push([String(x), o, String(y), z]);
+                allQuestions.push({operand1: x, operation: o, operand2: y, answser: z});
             });
         })
     });
+}
 
+function initGame() {
+    state = INIT;
+    gameCountDown = GAME_CD;
+    activatePage("init_page")
+}
+
+function startGame() {
+    createQuestions(selectedTables, selectedOperations);
+    answers.splice(0, answers.length);
     state = SPLASH;
     activatePage("countdown_page");
     splashCountDown = SPLASH_CD;
-}
-
-function runSplash() {
-    console.log('run splash ' + splashCountDown);
-    if (splashCountDown >= 0) {
-        text = (splashCountDown == 0) ? "Partez !" : splashCountDown + " ...";
-        document.getElementById("countdown").innerHTML = text;
-        splashCountDown--;
-    }
-    else {
-        startRunning();
-    }
-}
-
-function passTurn() {
-    if (chancesCount > 0) {
-        chancesCount--;
-        hideKeyboard();
-        splashStatus("Il reste " + chancesCount + " Jokers")
-            .then(nextTurn)
-            .then(showKeyboard)
-    } else {
-        hideKeyboard();
-        splashStatus("Aucun Joker")
-            .then(clearInput)
-            .then(showKeyboard)
-    }
 }
 
 function startRunning() {
@@ -360,9 +401,8 @@ function startRunning() {
     runGame();
 
     hideKeyboard();
-    nextTurn()
+    nextQuestion()
         .then(showKeyboard);
-
 }
 
 function runGame() {
@@ -390,15 +430,6 @@ function endGame() {
     let list_anwsers = document.getElementById("answers");
 }
 
-function nextTurn() {
-    currentInput = "";
-    questionsCount += 1;
-    let choice = choose(questions);
-    currentQuestion = choice;
-    currentAnswer = choice[3];
-    return clearInput();
-}
-
 function gameLoop() {
     console.log('state ' + state);
     switch (state) {
@@ -406,7 +437,7 @@ function gameLoop() {
             break;
 
         case SPLASH:
-            runSplash();
+            countDownPage();
             break;
 
         case RUNNING:
@@ -418,10 +449,10 @@ function gameLoop() {
 var timerVar = setInterval(gameLoop, 1000);
 
 window.addEventListener('load', function () {
-    initButtons('duration', ALL_DURATIONS, selectedDurations, single = true);
-    initButtons('table', ALL_TABLES, selectedTables);
-    initButtons('operation', ALL_OPERATIONS, selectedOperations);
-    initRefreshDisplay();
+    createIntroButtons('duration', ALL_DURATIONS, selectedDurations, single = true);
+    createIntroButtons('table', ALL_TABLES, selectedTables);
+    createIntroButtons('operation', ALL_OPERATIONS, selectedOperations);
+
     initGame();
 });
 
