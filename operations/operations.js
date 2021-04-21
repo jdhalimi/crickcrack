@@ -584,7 +584,7 @@ window.addEventListener('load', function () {
 });
 
 window.addEventListener('keydown', function (e) {
-    if (state == RUNNING) {
+    if (inGame) {
         if (/^[0-9]$/i.test(e.key)) {
             inputDigit(e.key);
         }
