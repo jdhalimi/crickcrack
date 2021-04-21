@@ -313,11 +313,13 @@ function gamePage() {
 
         let timer = document.createElement('div')
         timer.id = "timer";
+        timer.innerHTML = "00:00";
         timer.className = "timer";
         content.appendChild(timer);
 
         let status = document.createElement('div')
         status.id = "status";
+        status.hidden = true;
         content.appendChild(status);
 
         let keyboard = createKeyboard();
