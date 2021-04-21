@@ -27,11 +27,11 @@
 }
 
 
-.operation button {
+.operation img {
     margin: 0;
     border: none;
-    width: 4rem;
-    height: 4.8rem; 
+    width: 6rem;
+    height:  auto ; 
 }
 
 #keyboardold {
@@ -48,10 +48,15 @@
     text-align: center;
 }
 
+.keyboard  {
+    margin-top: 0.5rem;
+}
+
 .keyboard img {
-    margin: 0;
+    margin: 1rem;
     border: none;
-    width: 4rem;
+    width: 3rem;
+    height: auto;
 }
 
 
