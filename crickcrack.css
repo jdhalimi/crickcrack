@@ -6,13 +6,13 @@
 
   @media (min-height: 800px) {
     html {
-        font-size: 200%;
+        font-size: 120%;
     }
   }
 
   @media (min-height: 1025px) {
     html {
-        font-size: 200%;
+        font-size: 120%;
     }
   }
 
