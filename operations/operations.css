@@ -30,7 +30,7 @@
 .operation img {
     margin: 0;
     border: none;
-    width: 4rem;
+    width: 5rem;
     height:  auto ; 
 }
 
@@ -53,7 +53,7 @@
 }
 
 .keyboard img {
-    margin: 10px;
+    margin: 20px;
     border: none;
     width: 3rem;
     height: auto;

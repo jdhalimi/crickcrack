@@ -35,6 +35,10 @@ footer {
     touch-action: none;
 }
 
+.logo img {
+    height: 3rem;
+}
+
 .splash img {
     width: 10rem;
 }
