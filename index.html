@@ -3,6 +3,21 @@
 <head>
 	<title>Crick-Crack</title>
 	<link rel="stylesheet" href="crickcrack.css">
+	
+	<meta property="og:title" content="{{ g.og_title }}">
+	<meta property="og:url" content="{{ request.url }}">
+	<meta property="og:description" content="{{ g.og_description }}">
+	<meta property="og:image" content="{{ url_for('static', filename='img/children/bravo.png') }}">
+	<meta property="og:type" content="website"/>
+	<meta property="og:site_name" content="Crick Crack"/>
+
+	<meta name="twitter:card" content="summary_large_image"/>
+	<meta name="twitter:card" content="summary"/>
+	<meta name="twitter:domain" content="github.io"/>
+	<meta name="twitter:title" property="og:title" itemprop="name" content="Fetch: POST JSON data"/>
+	<meta name="twitter:description" property="og:description" itemprop="description" content="{{ g.og_description }}"/>
+	
+	
 </head>
 
 <body>
